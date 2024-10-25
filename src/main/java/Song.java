@@ -58,24 +58,15 @@ public class Song {
             clip.start();
             System.out.println("Playing: " + title + " by " + artist);
 
-            // Start a separate thread to listen for the "e" key press to stop the audio
-            Thread stopThread = new Thread(() -> {
-                Scanner scanner = new Scanner(System.in);
-                System.out.println("Press 'e' to stop the song.");
-                while (clip.isRunning()) {
-                    String input = scanner.nextLine();
-                    if (input.equalsIgnoreCase("e")) {
-                        stop(); // Stop the clip when "e" is pressed
-                        break;
-                    }
-                }
-            });
-            stopThread.start(); // Start the thread for user input
+            // Handle stopping in the main thread
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Press 'e' to stop the song.");
+            String input = scanner.nextLine();
+            if (input.equalsIgnoreCase("e")) {
+                stop();
+            }
 
-            // Wait for the audio to finish playing or for the stop input
-            stopThread.join(); // Ensure the main thread waits for the input thread to finish
-
-        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException | InterruptedException e) {
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             System.out.println("Error playing the song: " + e.getMessage());
         }
     }
