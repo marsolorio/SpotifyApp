@@ -78,14 +78,14 @@ public class App {
         showLibrary(); // Display the library on the home screen
     }
 
-    // Method to search for a song by title and play it
+    // Updated method to search for a song by title and play it
     public static void searchByTitle(Scanner scanner) {
         System.out.print("Enter song title: ");
-        String title = scanner.nextLine();
+        String title = scanner.nextLine().toLowerCase(); // Convert input to lowercase for case-insensitive search
         boolean found = false;
 
         for (Song song : songLibrary) {
-            if (song.getTitle().equalsIgnoreCase(title)) {
+            if (song.getTitle().toLowerCase().contains(title)) { // Check if song title contains the input string
                 System.out.println("Found: " + song.getTitle() + " by " + song.getArtist());
                 song.play(); // Play the song
                 found = true;

@@ -1,10 +1,17 @@
 [
     {
-      "title": "Teach Me How to Dougie",
-      "artist": "Cali Swag District",
-      "year": 2010,
+      "title": "Beat Cook Up 3",
+      "artist": "JBlanked",
+      "year": 2022,
+      "genre": "Instrumental",
+      "filePath": "src/main/resources/JBlanked - Beat Cook Up 3.wav"
+    },
+    {
+      "title": "DOUGH LARGE",
+      "artist": "Alaclair Ensemble",
+      "year": 2021,
       "genre": "Hip Hop",
-      "filePath": "src/main/resources/dougie-crop.wav"
+      "filePath": "src/main/resources/Alaclair Ensemble - DOUGH LARGE.wav"
     },
     {
       "title": "Could've Been (Tik Tok Remix)",
@@ -14,11 +21,18 @@
       "filePath": "src/main/resources/her-crop.wav"
     },
     {
-      "title": "On Me",
-      "artist": "Lil Baby",
-      "year": 2020,
+      "title": "Industry Baby",
+      "artist": "Lil Nas X",
+      "year": 2021,
       "genre": "Hip Hop",
-      "filePath": "src/main/resources/lil-baby-crop.wav"
+      "filePath": "src/main/resources/lil-nas-x-crop.wav"
+    },
+    {
+      "title": "Kufalatboi",
+      "artist": "The Years",
+      "year": 2022,
+      "genre": "Alternative",
+      "filePath": "src/main/resources/The Years - Kufalatboi.wav"
     },
     {
       "title": "Mo Money Mo Problems",
@@ -28,11 +42,32 @@
       "filePath": "src/main/resources/biggie-crop.wav"
     },
     {
-      "title": "Industry Baby",
-      "artist": "Lil Nas X",
+      "title": "On Me",
+      "artist": "Lil Baby",
+      "year": 2020,
+      "genre": "Hip Hop",
+      "filePath": "src/main/resources/lil-baby-crop.wav"
+    },
+    {
+      "title": "Superfresh (Live @ KEXP)",
+      "artist": "Q Dot",
       "year": 2021,
       "genre": "Hip Hop",
-      "filePath": "src/main/resources/lil-nas-x-crop.wav"
+      "filePath": "src/main/resources/Q Dot - Superfresh (Live @ KEXP).wav"
+    },
+    {
+      "title": "Teach Me How to Dougie",
+      "artist": "Cali Swag District",
+      "year": 2010,
+      "genre": "Hip Hop",
+      "filePath": "src/main/resources/dougie-crop.wav"
+    },
+    {
+      "title": "Thunderstorm",
+      "artist": "CRUXORIUM",
+      "year": 2023,
+      "genre": "Ambient",
+      "filePath": "src/main/resources/CRUXORIUM - Thunderstorm.wav"
     }
   ]
   
