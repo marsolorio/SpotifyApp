@@ -1,26 +1,23 @@
 [
     {
+        "title": "Beat Cook Up 3",
+        "artist": "JBlanked",
+        "year": 2022,
+        "genre": "Instrumental",
+        "filePath": "src/main/resources/JBlanked - Beat Cook Up 3.wav"
+    },
+    {
         "title": "DOUGH LARGE",
         "artist": "Alaclair Ensemble",
         "year": 2021,
         "genre": "Hip Hop",
-        "isFavorite": false,
         "filePath": "src/main/resources/Alaclair Ensemble - DOUGH LARGE.wav"
-    },
-    {
-        "title": "Teach Me How to Dougie",
-        "artist": "Cali Swag District",
-        "year": 2010,
-        "genre": "Hip Hop",
-        "isFavorite": false,
-        "filePath": "src/main/resources/dougie-crop.wav"
     },
     {
         "title": "Could've Been (Tik Tok Remix)",
         "artist": "H.E.R.",
         "year": 2018,
         "genre": "R&B",
-        "isFavorite": true,
         "filePath": "src/main/resources/her-crop.wav"
     },
     {
@@ -28,7 +25,6 @@
         "artist": "Lil Nas X",
         "year": 2021,
         "genre": "Hip Hop",
-        "isFavorite": false,
         "filePath": "src/main/resources/lil-nas-x-crop.wav"
     },
     {
@@ -36,7 +32,6 @@
         "artist": "The Years",
         "year": 2022,
         "genre": "Alternative",
-        "isFavorite": true,
         "filePath": "src/main/resources/The Years - Kufalatboi.wav"
     },
     {
@@ -44,7 +39,6 @@
         "artist": "Notorious B.I.G.",
         "year": 1997,
         "genre": "Hip Hop",
-        "isFavorite": false,
         "filePath": "src/main/resources/biggie-crop.wav"
     },
     {
@@ -52,7 +46,6 @@
         "artist": "Lil Baby",
         "year": 2020,
         "genre": "Hip Hop",
-        "isFavorite": true,
         "filePath": "src/main/resources/lil-baby-crop.wav"
     },
     {
@@ -60,23 +53,20 @@
         "artist": "Q Dot",
         "year": 2021,
         "genre": "Hip Hop",
-        "isFavorite": false,
         "filePath": "src/main/resources/Q Dot - Superfresh (Live @ KEXP).wav"
+    },
+    {
+        "title": "Teach Me How to Dougie",
+        "artist": "Cali Swag District",
+        "year": 2010,
+        "genre": "Hip Hop",
+        "filePath": "src/main/resources/dougie-crop.wav"
     },
     {
         "title": "Thunderstorm",
         "artist": "CRUXORIUM",
         "year": 2023,
         "genre": "Ambient",
-        "isFavorite": false,
         "filePath": "src/main/resources/CRUXORIUM - Thunderstorm.wav"
-    },
-    {
-        "title": "Beat Cook Up 3",
-        "artist": "JBlanked",
-        "year": 2022,
-        "genre": "Instrumental",
-        "isFavorite": true,
-        "filePath": "src/main/resources/JBlanked - Beat Cook Up 3.wav"
     }
 ]

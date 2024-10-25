@@ -12,7 +12,7 @@ public class Song {
     private boolean isFavorite;
     private Clip clip;
     private boolean isPaused = false;
-    private long clipPosition = 0; // Stores the clip's current position for pause/resume functionality
+    private long clipPosition = 0; // For pause/resume functionality
 
     // Constructor
     public Song(String title, String artist, int year, String genre, String filePath, boolean isFavorite) {
@@ -49,10 +49,14 @@ public class Song {
         return isFavorite;
     }
 
-    // Toggle favorite status
+    // Toggle favorite status with a message if already favorited
     public void toggleFavorite() {
-        isFavorite = !isFavorite;
-        System.out.println("Favorite status for \"" + title + "\": " + (isFavorite ? "Favorited" : "Not Favorited"));
+        if (isFavorite) {
+            System.out.println("The song \"" + title + "\" is already a favorite.");
+        } else {
+            isFavorite = true;
+            System.out.println("The song \"" + title + "\" has been added to your favorites.");
+        }
     }
 
     // Play the song with additional controls
@@ -80,10 +84,10 @@ public class Song {
                         break;
                     case "r":
                         rewind(5000000);
-                        break; // Rewind 5 seconds
+                        break;
                     case "f":
                         forward(5000000);
-                        break; // Forward 5 seconds
+                        break;
                     case "t":
                         toggleFavorite();
                         break;
