@@ -9,15 +9,19 @@ public class Song {
     private int year;
     private String genre;
     private String filePath;
-    private Clip clip; // Make the Clip a class-level variable
+    private boolean isFavorite;
+    private Clip clip;
+    private boolean isPaused = false;
+    private long clipPosition = 0; // Stores the clip's current position for pause/resume functionality
 
     // Constructor
-    public Song(String title, String artist, int year, String genre, String filePath) {
+    public Song(String title, String artist, int year, String genre, String filePath, boolean isFavorite) {
         this.title = title;
         this.artist = artist;
         this.year = year;
         this.genre = genre;
         this.filePath = filePath;
+        this.isFavorite = isFavorite;
     }
 
     // Getter methods
@@ -41,42 +45,100 @@ public class Song {
         return filePath;
     }
 
-    // Play the song using Java's sound system
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    // Toggle favorite status
+    public void toggleFavorite() {
+        isFavorite = !isFavorite;
+        System.out.println("Favorite status for \"" + title + "\": " + (isFavorite ? "Favorited" : "Not Favorited"));
+    }
+
+    // Play the song with additional controls
     public void play() {
         try {
-            // Open the audio file as an AudioInputStream
             File audioFile = new File(filePath);
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
-
-            // Get a sound clip resource and store it in the class variable
             clip = AudioSystem.getClip();
-
-            // Open the audio clip and load the audio from the audio stream
             clip.open(audioStream);
-
-            // Start playing the audio clip
+            clip.setMicrosecondPosition(clipPosition); // Resume from last position if paused
             clip.start();
             System.out.println("Playing: " + title + " by " + artist);
+            displayControls();
 
-            // Handle stopping in the main thread
+            // Handle user input for controls
             Scanner scanner = new Scanner(System.in);
-            System.out.println("Press 'e' to stop the song.");
-            String input = scanner.nextLine();
-            if (input.equalsIgnoreCase("e")) {
-                stop();
+            while (clip.isRunning() || isPaused) {
+                String input = scanner.nextLine();
+                switch (input.toLowerCase()) {
+                    case "e":
+                        stop();
+                        return;
+                    case "p":
+                        pauseResume();
+                        break;
+                    case "r":
+                        rewind(5000000);
+                        break; // Rewind 5 seconds
+                    case "f":
+                        forward(5000000);
+                        break; // Forward 5 seconds
+                    case "t":
+                        toggleFavorite();
+                        break;
+                    default:
+                        System.out.println(
+                                "Invalid input. Use 'p' to pause/resume, 'e' to stop, 'r' to rewind, 'f' to forward, 't' to toggle favorite.");
+                }
             }
-
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             System.out.println("Error playing the song: " + e.getMessage());
         }
     }
 
-    // Method to stop the audio clip
+    // Pause or resume the audio
+    public void pauseResume() {
+        if (isPaused) {
+            clip.setMicrosecondPosition(clipPosition); // Resume from saved position
+            clip.start();
+            System.out.println("Resumed: " + title);
+        } else {
+            clipPosition = clip.getMicrosecondPosition();
+            clip.stop();
+            System.out.println("Paused: " + title);
+        }
+        isPaused = !isPaused;
+    }
+
+    // Rewind the audio by a specified amount of microseconds
+    public void rewind(long microseconds) {
+        long newPosition = Math.max(clip.getMicrosecondPosition() - microseconds, 0);
+        clip.setMicrosecondPosition(newPosition);
+        System.out.println("Rewound 5 seconds.");
+    }
+
+    // Forward the audio by a specified amount of microseconds
+    public void forward(long microseconds) {
+        long newPosition = Math.min(clip.getMicrosecondPosition() + microseconds, clip.getMicrosecondLength());
+        clip.setMicrosecondPosition(newPosition);
+        System.out.println("Forwarded 5 seconds.");
+    }
+
+    // Stop the audio clip
     public void stop() {
         if (clip != null && clip.isRunning()) {
-            clip.stop(); // Stop the audio
-            clip.close(); // Release system resources
+            clip.stop();
+            clip.close();
+            clipPosition = 0; // Reset position
+            isPaused = false;
             System.out.println("Song stopped.");
         }
+    }
+
+    // Display the control options to the user
+    private void displayControls() {
+        System.out.println(
+                "Controls: 'p' = pause/resume, 'e' = stop, 'r' = rewind, 'f' = forward, 't' = toggle favorite");
     }
 }
