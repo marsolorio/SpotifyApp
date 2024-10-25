@@ -1,6 +1,7 @@
 import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.Scanner;
 
 public class Song {
     private String title;
@@ -8,6 +9,7 @@ public class Song {
     private int year;
     private String genre;
     private String filePath;
+    private Clip clip; // Make the Clip a class-level variable
 
     // Constructor
     public Song(String title, String artist, int year, String genre, String filePath) {
@@ -46,8 +48,8 @@ public class Song {
             File audioFile = new File(filePath);
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
 
-            // Get a sound clip resource
-            Clip clip = AudioSystem.getClip();
+            // Get a sound clip resource and store it in the class variable
+            clip = AudioSystem.getClip();
 
             // Open the audio clip and load the audio from the audio stream
             clip.open(audioStream);
@@ -56,14 +58,34 @@ public class Song {
             clip.start();
             System.out.println("Playing: " + title + " by " + artist);
 
-            // Keep the thread running until the audio clip finishes playing
-            Thread.sleep(clip.getMicrosecondLength() / 1000);
+            // Start a separate thread to listen for the "e" key press to stop the audio
+            Thread stopThread = new Thread(() -> {
+                Scanner scanner = new Scanner(System.in);
+                System.out.println("Press 'e' to stop the song.");
+                while (clip.isRunning()) {
+                    String input = scanner.nextLine();
+                    if (input.equalsIgnoreCase("e")) {
+                        stop(); // Stop the clip when "e" is pressed
+                        break;
+                    }
+                }
+            });
+            stopThread.start(); // Start the thread for user input
 
-            // Close the clip after playing
-            clip.close();
+            // Wait for the audio to finish playing or for the stop input
+            stopThread.join(); // Ensure the main thread waits for the input thread to finish
 
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException | InterruptedException e) {
             System.out.println("Error playing the song: " + e.getMessage());
+        }
+    }
+
+    // Method to stop the audio clip
+    public void stop() {
+        if (clip != null && clip.isRunning()) {
+            clip.stop(); // Stop the audio
+            clip.close(); // Release system resources
+            System.out.println("Song stopped.");
         }
     }
 }
