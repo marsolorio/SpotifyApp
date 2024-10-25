@@ -48,6 +48,7 @@ public class App {
             System.out.println("[H]ome");
             System.out.println("[S]earch by title");
             System.out.println("[L]ibrary");
+            System.out.println("[F]avorites");
             System.out.println("[Q]uit");
             System.out.print("Choose an option: ");
             choice = scanner.nextLine();
@@ -61,6 +62,9 @@ public class App {
                     break;
                 case "L":
                     showLibrary();
+                    break;
+                case "F":
+                    showFavorites();
                     break;
                 case "Q":
                     System.out.println("Goodbye!");
@@ -78,17 +82,40 @@ public class App {
         showLibrary(); // Display the library on the home screen
     }
 
-    // Updated method to search for a song by title and play it
+    // Method to show favorite songs and play selected ones
+    public static void showFavorites() {
+        System.out.println("\nFavorite Songs:");
+        int index = 1;
+        for (Song song : songLibrary) {
+            if (song.isFavorite()) {
+                System.out.println(index + ". " + song.getTitle() + " by " + song.getArtist() +
+                        " (" + song.getYear() + ", " + song.getGenre() + ")");
+            }
+            index++;
+        }
+        System.out.println("\nSelect a number to play a favorite song, or press Enter to return to the menu:");
+        playSelectedSong();
+    }
+
+    // Method to search for a song by title and play it with an option to toggle
+    // favorite
     public static void searchByTitle(Scanner scanner) {
         System.out.print("Enter song title: ");
-        String title = scanner.nextLine().toLowerCase(); // Convert input to lowercase for case-insensitive search
+        String title = scanner.nextLine().toLowerCase();
         boolean found = false;
 
         for (Song song : songLibrary) {
-            if (song.getTitle().toLowerCase().contains(title)) { // Check if song title contains the input string
+            if (song.getTitle().toLowerCase().contains(title)) {
                 System.out.println("Found: " + song.getTitle() + " by " + song.getArtist());
                 song.play(); // Play the song
                 found = true;
+
+                // Offer to toggle favorite status
+                System.out.print("Do you want to favorite this song? (y/n): ");
+                String favoriteChoice = scanner.nextLine();
+                if (favoriteChoice.equalsIgnoreCase("y")) {
+                    song.toggleFavorite();
+                }
                 break;
             }
         }
@@ -98,7 +125,7 @@ public class App {
         }
     }
 
-    // Method to show the entire library and allow selection to play
+    // Method to show the entire library and allow selection to play and favorite
     public static void showLibrary() {
         if (songLibrary != null && !songLibrary.isEmpty()) {
             int index = 1;
@@ -106,14 +133,15 @@ public class App {
                 System.out.println(index++ + ". " + song.getTitle() + " by " + song.getArtist() +
                         " (" + song.getYear() + ", " + song.getGenre() + ")");
             }
-            System.out.println("\nSelect a number to play the song, or press Enter to return to the menu:");
+            System.out.println("\nSelect a number to play a song, or press Enter to return to the menu:");
             playSelectedSong();
         } else {
             System.out.println("No songs available.");
         }
     }
 
-    // Method to play the selected song from the library
+    // Method to play the selected song from the library with a toggle favorite
+    // option
     public static void playSelectedSong() {
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
@@ -124,6 +152,13 @@ public class App {
                 if (choice > 0 && choice <= songLibrary.size()) {
                     Song selectedSong = songLibrary.get(choice - 1);
                     selectedSong.play();
+
+                    // Offer to toggle favorite status
+                    System.out.print("Do you want to favorite this song? (y/n): ");
+                    String favoriteChoice = scanner.nextLine();
+                    if (favoriteChoice.equalsIgnoreCase("y")) {
+                        selectedSong.toggleFavorite();
+                    }
                 } else {
                     System.out.println("Invalid choice.");
                 }
