@@ -1,29 +1,37 @@
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
 import javax.sound.sampled.*;
-import java.io.File;
 import java.io.FileReader;
 import java.util.List;
 import java.util.Scanner;
+import java.io.File;
+import java.io.IOException;
 
 public class App {
-
     // List to store songs loaded from JSON
     private static List<Song> songLibrary;
 
     public static void main(String[] args) {
-        loadLibraryFromJson(); // Load songs from JSON file
-        displayMenu(); // Show interactive menu
+        // Load songs from JSON file
+        loadLibraryFromJson();
+
+        // Show interactive menu
+        displayMenu();
     }
 
     // Method to load the library from the audio-library.json file
     public static void loadLibraryFromJson() {
         try {
+            // Read the JSON file
             Gson gson = new Gson();
             FileReader reader = new FileReader("src/main/resources/audio-library.json");
+
+            // Parse the JSON file into a list of Song objects
             songLibrary = gson.fromJson(reader, new TypeToken<List<Song>>() {
             }.getType());
             reader.close();
+
             System.out.println("Library loaded with " + songLibrary.size() + " songs.");
         } catch (Exception e) {
             e.printStackTrace();
@@ -36,7 +44,7 @@ public class App {
         String choice = "";
 
         while (!choice.equalsIgnoreCase("Q")) {
-            System.out.println("Welcome to Spotify-Like App");
+            System.out.println("\nWelcome to the Spotify-Like App");
             System.out.println("[H]ome");
             System.out.println("[S]earch by title");
             System.out.println("[L]ibrary");
@@ -66,8 +74,8 @@ public class App {
 
     // Method to display the home screen (can be customized)
     public static void showHome() {
-        System.out.println("Welcome to Home! Your songs are ready to play.");
-        showLibrary();
+        System.out.println("\nWelcome to Home! Your songs are ready to play.");
+        showLibrary(); // Display the library on the home screen
     }
 
     // Method to search for a song by title and play it
@@ -79,7 +87,7 @@ public class App {
         for (Song song : songLibrary) {
             if (song.getTitle().equalsIgnoreCase(title)) {
                 System.out.println("Found: " + song.getTitle() + " by " + song.getArtist());
-                song.play();
+                song.play(); // Play the song
                 found = true;
                 break;
             }
@@ -90,16 +98,38 @@ public class App {
         }
     }
 
-    // Method to show the library and allow selection to play
+    // Method to show the entire library and allow selection to play
     public static void showLibrary() {
         if (songLibrary != null && !songLibrary.isEmpty()) {
             int index = 1;
             for (Song song : songLibrary) {
-                System.out.println(index++ + ". " + song.getTitle() + " by " + song.getArtist() + " (" + song.getYear()
-                        + ", " + song.getGenre() + ")");
+                System.out.println(index++ + ". " + song.getTitle() + " by " + song.getArtist() +
+                        " (" + song.getYear() + ", " + song.getGenre() + ")");
             }
+            System.out.println("\nSelect a number to play the song, or press Enter to return to the menu:");
+            playSelectedSong();
         } else {
             System.out.println("No songs available.");
+        }
+    }
+
+    // Method to play the selected song from the library
+    public static void playSelectedSong() {
+        Scanner scanner = new Scanner(System.in);
+        String input = scanner.nextLine();
+
+        if (!input.isEmpty()) {
+            try {
+                int choice = Integer.parseInt(input);
+                if (choice > 0 && choice <= songLibrary.size()) {
+                    Song selectedSong = songLibrary.get(choice - 1);
+                    selectedSong.play();
+                } else {
+                    System.out.println("Invalid choice.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input.");
+            }
         }
     }
 }
